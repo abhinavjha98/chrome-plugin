@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sms/sms.dart';
+import 'package:smsapp/messageDisplay.dart';
 import 'package:smsapp/utils/http-client.dart';
 
 class UrlStatus extends StatefulWidget {
@@ -64,13 +65,23 @@ class _UrlStatusState extends State<UrlStatus> {
               ),
         subtitle: Text(
           widget.messages.body,
-          maxLines: 4,
+          maxLines: 5,
           style: TextStyle(),
         ),
         onTap: () {
-          setState(() {
-            phishingUrl(widget.messages.body.toString());
-          });
+          // setState(() {
+          //   phishingUrl(widget.messages.body.toString());
+          // });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MessageDisplay(
+                message: widget.messages.body,
+                contact: widget.messages.address,
+                status: _urlStatus,
+              ),
+            ),
+          );
         },
       ),
     );
