@@ -35,6 +35,7 @@ class _UrlStatusState extends State<UrlStatus> {
   }
 
   bool statusUrl(text) {
+    print(text.runtimeType);
     phishingUrl(text);
 
     return _urlStatus;

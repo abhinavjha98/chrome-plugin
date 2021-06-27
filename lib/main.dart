@@ -67,6 +67,7 @@ class MyInboxState extends State {
         future: fetchSMS(),
         builder: (context, AsyncSnapshot snapshot) {
           return ListView.separated(
+
               separatorBuilder: (context, index) => Divider(
                     color: Colors.black,
                   ),
