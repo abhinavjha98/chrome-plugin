@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sms/sms.dart';
+import 'package:smsapp/status.dart';
 
 void main() {
   runApp(MyApp());
@@ -48,6 +49,7 @@ class MyInbox extends StatefulWidget {
 class MyInboxState extends State {
   SmsQuery query = new SmsQuery();
   List<SmsMessage> messages = new List<SmsMessage>();
+  bool urlStatus = true;
   @override
   initState() {
     super.initState();
@@ -70,30 +72,36 @@ class MyInboxState extends State {
                   ),
               itemCount: messages.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.markunread,
-                      color: Colors.blue,
-                    ),
-                    title: Text(messages[index].address),
-                    trailing: (index % 2) == 0
-                        ? VerticalDivider(
-                            color: Colors.red,
-                            thickness: 10.0,
-                          )
-                        : VerticalDivider(
-                            color: Colors.green,
-                            thickness: 10.0,
-                          ),
-                    subtitle: Text(
-                      messages[index].body,
-                      maxLines: 4,
-                      style: TextStyle(),
-                    ),
-                  ),
-                );
+                return UrlStatus(messages: messages[index]);
+                //   Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: ListTile(
+                //     leading: Icon(
+                //       Icons.markunread,
+                //       color: Colors.blue,
+                //     ),
+                //     title: Text(messages[index].address),
+                //     trailing: urlStatus
+                //         ? VerticalDivider(
+                //             color: Colors.green,
+                //             thickness: 10.0,
+                //           )
+                //         : VerticalDivider(
+                //             color: Colors.red,
+                //             thickness: 10.0,
+                //           ),
+                //     subtitle: Text(
+                //       messages[index].body,
+                //       maxLines: 4,
+                //       style: TextStyle(),
+                //     ),
+                //     onTap: () {
+                //       setState(() {
+                //         phishingUrl(messages[index].body.toString());
+                //       });
+                //     },
+                //   ),
+                // );
               });
         },
       ),
