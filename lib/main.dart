@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        brightness: Brightness.light,
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -27,6 +28,11 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        /* dark theme settings */
+      ),
+      themeMode: ThemeMode.dark,
       home: MyInbox(),
     );
   }
@@ -53,11 +59,11 @@ class MyInboxState extends State {
       appBar: AppBar(
         title: Text("SMS Inbox"),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        // backgroundColor: Colors.blue,
       ),
       body: FutureBuilder(
         future: fetchSMS(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot snapshot) {
           return ListView.separated(
               separatorBuilder: (context, index) => Divider(
                     color: Colors.black,
@@ -72,6 +78,15 @@ class MyInboxState extends State {
                       color: Colors.blue,
                     ),
                     title: Text(messages[index].address),
+                    trailing: (index % 2) == 0
+                        ? VerticalDivider(
+                            color: Colors.red,
+                            thickness: 10.0,
+                          )
+                        : VerticalDivider(
+                            color: Colors.green,
+                            thickness: 10.0,
+                          ),
                     subtitle: Text(
                       messages[index].body,
                       maxLines: 4,
@@ -87,5 +102,6 @@ class MyInboxState extends State {
 
   fetchSMS() async {
     messages = await query.getAllSms;
+    print(messages);
   }
 }
