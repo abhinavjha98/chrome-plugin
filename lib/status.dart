@@ -23,7 +23,6 @@ class _UrlStatusState extends State<UrlStatus> {
 
   void phishingUrl(text) async {
     var data = await HttpClients().setData(text);
-
     if (data == "Bad Url") {
       // setState(() {
       //   _urlStatus = false;

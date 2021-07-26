@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sms/sms.dart';
+import 'package:smsapp/screens/profile/welcome.dart';
 import 'package:smsapp/status.dart';
 
 void main() {
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         /* dark theme settings */
       ),
       themeMode: ThemeMode.dark,
-      home: MyInbox(),
+      home: WelcomeScreen(),
     );
   }
 }
@@ -67,7 +68,6 @@ class MyInboxState extends State {
         future: fetchSMS(),
         builder: (context, AsyncSnapshot snapshot) {
           return ListView.separated(
-
               separatorBuilder: (context, index) => Divider(
                     color: Colors.black,
                   ),
