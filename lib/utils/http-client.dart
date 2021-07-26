@@ -13,7 +13,7 @@ class HttpClients {
       'Content-type': 'application/json',
     };
     var data = {"message": url};
-    var res = await http.post("http://20.98.205.93:8000/api/m/smsurls/",
+    var res = await http.post("http://13.68.27.117:8000/api/m/smsurls/",
         body: json.encode(data), headers: headers);
 
     print(res.body);
