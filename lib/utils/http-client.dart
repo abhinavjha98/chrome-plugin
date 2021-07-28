@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:smsapp/models/smsModel.dart';
 
 class HttpClients {
   Future<void> getData() async {
@@ -8,7 +9,7 @@ class HttpClients {
     print(res.body);
   }
 
-  Future<String> setData(url) async {
+  Future<List<SmsModel>> setData(url) async {
     var headers = {
       'Content-type': 'application/json',
     };
@@ -18,6 +19,11 @@ class HttpClients {
 
     print(res.body);
     var respData = json.decode(utf8.decode(res.bodyBytes));
-    return respData['status'];
+    List<dynamic> datas = respData;
+    List<SmsModel> tags = datas
+        .map((e) => SmsModel.fromMap(e))
+        .where((element) => element != null)
+        .toList();
+    return Future.value(tags);
   }
 }
