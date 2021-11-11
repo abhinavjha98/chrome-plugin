@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sms/sms.dart';
+import 'package:smsapp/messageDisplay.dart';
+import 'package:smsapp/models/smsModel.dart';
 import 'package:smsapp/utils/http-client.dart';
 
 class UrlStatus extends StatefulWidget {
@@ -12,6 +14,7 @@ class UrlStatus extends StatefulWidget {
 
 class _UrlStatusState extends State<UrlStatus> {
   bool _urlStatus = false;
+  String message = "";
   @override
   void initState() {
     // TODO: implement initState
@@ -21,20 +24,22 @@ class _UrlStatusState extends State<UrlStatus> {
   }
 
   void phishingUrl(text) async {
-    var data = await HttpClients().setData(text);
+    List<SmsModel> data = await HttpClients().setData(text);
 
-    if (data == "Bad Url") {
-      // setState(() {
-      //   _urlStatus = false;
-      // });
+    if (data[0].status == "Bad Url") {
+      setState(() {
+        message = data[0].message;
+      });
     } else {
       setState(() {
         _urlStatus = true;
+        message = data[0].message;
       });
     }
   }
 
   bool statusUrl(text) {
+    print(text.runtimeType);
     phishingUrl(text);
 
     return _urlStatus;
@@ -63,13 +68,24 @@ class _UrlStatusState extends State<UrlStatus> {
               ),
         subtitle: Text(
           widget.messages.body,
-          maxLines: 4,
+          maxLines: 5,
           style: TextStyle(),
         ),
         onTap: () {
-          setState(() {
-            phishingUrl(widget.messages.body.toString());
-          });
+          // setState(() {
+          //   phishingUrl(widget.messages.body.toString());
+          // });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MessageDisplay(
+                message: widget.messages.body,
+                url: message,
+                contact: widget.messages.address,
+                status: _urlStatus,
+              ),
+            ),
+          );
         },
       ),
     );

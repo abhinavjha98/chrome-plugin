@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sms/sms.dart';
-import 'package:smsapp/status.dart';
+import 'package:smsapp/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,82 +33,7 @@ class MyApp extends StatelessWidget {
         /* dark theme settings */
       ),
       themeMode: ThemeMode.dark,
-      home: MyInbox(),
+      home: Home(),
     );
-  }
-}
-
-class MyInbox extends StatefulWidget {
-  @override
-  State createState() {
-    return MyInboxState();
-  }
-}
-
-class MyInboxState extends State {
-  SmsQuery query = new SmsQuery();
-  List<SmsMessage> messages = new List<SmsMessage>();
-  bool urlStatus = true;
-  @override
-  initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("SMS Inbox"),
-        centerTitle: true,
-        // backgroundColor: Colors.blue,
-      ),
-      body: FutureBuilder(
-        future: fetchSMS(),
-        builder: (context, AsyncSnapshot snapshot) {
-          return ListView.separated(
-              separatorBuilder: (context, index) => Divider(
-                    color: Colors.black,
-                  ),
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                return UrlStatus(messages: messages[index]);
-                //   Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: ListTile(
-                //     leading: Icon(
-                //       Icons.markunread,
-                //       color: Colors.blue,
-                //     ),
-                //     title: Text(messages[index].address),
-                //     trailing: urlStatus
-                //         ? VerticalDivider(
-                //             color: Colors.green,
-                //             thickness: 10.0,
-                //           )
-                //         : VerticalDivider(
-                //             color: Colors.red,
-                //             thickness: 10.0,
-                //           ),
-                //     subtitle: Text(
-                //       messages[index].body,
-                //       maxLines: 4,
-                //       style: TextStyle(),
-                //     ),
-                //     onTap: () {
-                //       setState(() {
-                //         phishingUrl(messages[index].body.toString());
-                //       });
-                //     },
-                //   ),
-                // );
-              });
-        },
-      ),
-    );
-  }
-
-  fetchSMS() async {
-    messages = await query.getAllSms;
-    print(messages);
   }
 }
